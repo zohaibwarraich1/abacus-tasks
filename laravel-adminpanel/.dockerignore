@@ -1,0 +1,62 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Test and development files
+tests/
+test/
+*.log
+output.txt
+.php_cs.dist
+phpunit.xml
+grumphp.yml
+jest.config.js
+.babelrc
+.styleci.yml
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Environment files
+.env.local
+.env.*.local
+.env.testing
+
+# Documentation
+*.md
+docs/
+README*
+CHANGELOG*
+screenshots/
+
+# Laravel specific
+storage/logs/*
+bootstrap/cache/*
+public/storage
+
+# Docker
+docker-compose.override.yml
+Dockerfile*
+.docker/
+.dockerignore

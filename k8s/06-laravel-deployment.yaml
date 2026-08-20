@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-app
+  namespace: laravel-adminpanel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      # securityContext:
+      #   runAsUser: 82 # Alpine www-data user
+      #   runAsGroup: 82
+      #   fsGroup: 82
+      containers:
+        - name: laravel
+          image: 399894608127.dkr.ecr.ap-south-1.amazonaws.com/laravel-app-2:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: laravel-config
+          env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: laravel-secrets
+                  key: APP_KEY
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: laravel-secrets
+                  key: DB_PASSWORD
+          ports:
+            - containerPort: 80
+              name: fpm
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 80
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          # securityContext:
+          #   allowPrivilegeEscalation: false
+          #   runAsNonRoot: true

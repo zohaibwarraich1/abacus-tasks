@@ -1,0 +1,61 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Laravel / PHP / Node
+**/vendor/
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+**/.env
+**/.env.backup
+**/.phpunit.result.cache
+**/Homestead.json
+**/Homestead.yaml
+**/storage/framework/cache/data/*
+**/storage/framework/sessions/*
+**/storage/framework/testing/*
+**/storage/framework/views/*
+**/storage/logs/*
+!**/storage/logs/.gitignore
+!**/storage/framework/cache/data/.gitignore
+!**/storage/framework/sessions/.gitignore
+!**/storage/framework/testing/.gitignore
+!**/storage/framework/views/.gitignore
+
+# Docker
+.env
+docker-compose.override.yml
+
+# Temporary Office Files
+~$*.docx
+~$*.doc
+~$*.xlsx
+~$*.pptx

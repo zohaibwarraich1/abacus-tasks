@@ -1,0 +1,60 @@
+version: 0.2
+
+run-as: root
+
+env:
+  variables: 
+    PORT: "8000"
+  parameter-store:
+    ECR_REGISTRY: /nodeApp1/ecr/registry
+    ECR_REPOSITORY: /nodeApp1/ecr/repositery
+  # exported tags are used to pass variable for future pipeline stages e.g CodeDeploy.
+  exported-variables:
+    - IMAGE_TAG
+  secrets-manager:
+    DOCKER_USERNAME: dockerhub/creds:username
+    DOCKER_PASSWORD: dockerhub/creds:password
+
+phases:
+  install:
+    run-as: root
+    on-failure: ABORT
+    runtime-versions:
+      nodejs: 26
+    commands:
+      - echo "Installing dependencies..."
+      - npm install
+      - echo "Dependencies installed successfully..."
+
+  pre_build:
+    run-as: root
+    on-failure: ABORT
+    commands:
+      - echo "Logging in to Docker Hub..."
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "Login to Docker Hub completed..."
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+      - echo "Login to ECR completed..."
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo "Image Tag is set to $IMAGE_TAG"
+
+  build:
+    run-as: root
+    on-failure: ABORT
+    commands:
+      - echo "Building the application..."
+      - npm run build
+      - echo "Application Build completed..."
+      - echo "Building the Docker image..."
+      - docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+      - echo "Docker image build completed..."
+
+  post_build:
+    run-as: root
+    on-failure: ABORT
+    commands:
+      - echo "Pushing the Docker image..."
+      - docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      - echo "Docker image push completed..."
