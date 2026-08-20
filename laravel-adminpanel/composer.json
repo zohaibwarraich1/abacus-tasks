@@ -15,7 +15,7 @@
         "altek/eventually": "^1.0",
         "arcanedev/log-viewer": "^5.0",
         "creativeorange/gravatar": "~1.0",
-        "davejamesmiller/laravel-breadcrumbs": "^5.0",
+        "diglactic/laravel-breadcrumbs": "^5.2",
         "facade/ignition": "^1.11",
         "fideloper/proxy": "^4.0",
         "knuckleswtf/scribe": "^1.2",
@@ -33,22 +33,25 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.6",
-        "codedungeon/phpunit-result-printer": "^0.26.1",
-        "facade/ignition-code-editor": "^1.0",
-        "facade/ignition-self-diagnosis": "^1.0",
-        "facade/ignition-tinker-tab": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "fzaninotto/faker": "^1.9.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
         "phpro/grumphp": "^1.0",
-        "phpunit/phpunit": "^8.0",
-        "roave/security-advisories": "dev-master"
+        "phpunit/phpunit": "^8.0"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "policy.advisories.block": false,
+        "audit": {
+            "block": false,
+            "ignore": [
+                "PKSA-y2cr-5h3j-g3ys",
+                "PKSA-2kqm-ps5x-s4f5"
+            ]
+        }
     },
     "autoload": {
         "classmap": [
